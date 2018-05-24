@@ -52,6 +52,7 @@ else ()
 endif ()
 IF (ENABLE_DRAFTS)
     ADD_DEFINITIONS (-DCZMQ_BUILD_DRAFT_API)
+    ADD_DEFINITIONS (-DZMQ_BUILD_DRAFT_API)
 ENDIF (ENABLE_DRAFTS)
 
 ########################################################################
@@ -116,14 +117,14 @@ set(OPTIONAL_LIBRARIES)
 ########################################################################
 # LIBZMQ dependency
 ########################################################################
-find_package(libzmq REQUIRED)
-IF (LIBZMQ_FOUND)
-    include_directories(${LIBZMQ_INCLUDE_DIRS})
-    list(APPEND MORE_LIBRARIES ${LIBZMQ_LIBRARIES})
+find_package(ZeroMQ REQUIRED)
+IF (ZeroMQ_FOUND)
+    include_directories(${ZeroMQ_INCLUDE_DIR})
+    list(APPEND MORE_LIBRARIES libzmq)
     set(pkg_config_libs_private "${pkg_config_libs_private} -lzmq")
-ELSE (LIBZMQ_FOUND)
+ELSE (ZeroMQ_FOUND)
     message( FATAL_ERROR "libzmq not found." )
-ENDIF (LIBZMQ_FOUND)
+ENDIF (ZeroMQ_FOUND)
 
 ########################################################################
 # UUID dependency
@@ -441,7 +442,7 @@ if (TARGET czmq)
 target_link_libraries(
     zmakecert
     czmq
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
@@ -449,7 +450,7 @@ if (NOT TARGET czmq AND TARGET czmq-static)
 target_link_libraries(
     zmakecert
     czmq-static
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
@@ -464,7 +465,7 @@ if (TARGET czmq)
 target_link_libraries(
     zsp
     czmq
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
@@ -472,7 +473,7 @@ if (NOT TARGET czmq AND TARGET czmq-static)
 target_link_libraries(
     zsp
     czmq-static
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
@@ -484,7 +485,7 @@ if (TARGET czmq)
 target_link_libraries(
     test_randof
     czmq
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
@@ -492,7 +493,7 @@ if (NOT TARGET czmq AND TARGET czmq-static)
 target_link_libraries(
     test_randof
     czmq-static
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
@@ -504,7 +505,7 @@ if (TARGET czmq)
 target_link_libraries(
     czmq_selftest
     czmq
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
@@ -512,7 +513,7 @@ if (NOT TARGET czmq AND TARGET czmq-static)
 target_link_libraries(
     czmq_selftest
     czmq-static
-    ${LIBZMQ_LIBRARIES}
+    libzmq
     ${OPTIONAL_LIBRARIES}
 )
 endif()
